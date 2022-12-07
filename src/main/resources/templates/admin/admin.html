@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Админ панель</title>
+    <title>Администрирование</title>
 </head>
 <body>
 <h3>Личный кабинет администратора</h3>
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Выйти из личного кабинета">
+</form>
+<a href="/admin/product/add">Добавить товар</a>
+<h3>Каталог товаров:</h3>
+<hr>
+<div th:each="product : ${products}">
+    <p th:text="'Наименование: ' + ${product.getTitle()}" />
+    <p th:text="'Описание: ' + ${product.getDescription()}" />
+    <p th:text="'Цена: ' + ${product.getPrice()}" />
+    <p th:text="'Поставщик' + ${product.getProvider()}" />
+    <br>
+    <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактировать товар</a>
+    <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удалить товар</a>
+</div>
 </body>
 </html>

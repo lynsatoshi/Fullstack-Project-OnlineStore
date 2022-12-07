@@ -1,0 +1,80 @@
+package com.example.springsecurityapplication.models;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+@Entity
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "title", nullable = false, columnDefinition = "text")
+    @NotEmpty(message = "Наименование товара не может быть пустым")
+    private String title;
+
+    @Column(name = "description", nullable = false, columnDefinition = "text")
+    @NotEmpty(message = "Описание товара не может быть пустым")
+    private String description;
+
+    @Column(name = "price", nullable = false)
+    @Min(value = 1, message = "Цена не может быть отрицательной или нулевой")
+    @NotNull(message = "Цена товара не может быть пустой")
+    private float price;
+
+    @Column(name = "provider", nullable = false)
+    @NotEmpty(message = "Поле поставщика не может быть пустым")
+    private String provider;
+
+    public Product(String title, String description, float price, String provider) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.provider = provider;
+    }
+
+    public Product() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String seller) {
+        this.provider = seller;
+    }
+}
