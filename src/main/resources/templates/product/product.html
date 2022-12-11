@@ -2,14 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Личный кабинет</title>
+    <title>Список товаров</title>
 </head>
+// пользователь не пошел в систему
 <body>
-<h3>Личный кабинет пользователя</h3>
-<form method="post" th:action="@{/logout}">
-    <input type="submit" value="Выйти из личного кабинета">
-</form>
-
 <h3>Доступные товары</h3>
 <div th:each="product : ${products}">
 

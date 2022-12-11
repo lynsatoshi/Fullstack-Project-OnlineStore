@@ -6,18 +6,29 @@
 </head>
 <body>
 <h3>Добавление товара</h3>
-<form th:method="POST" th:action="@{/admin/product/add}" th:object="${product}">
+<form th:method="POST" th:action="@{/admin/product/add}" th:object="${product}" enctype="multipart/form-data">
     <label for="title">Введите название товара: </label>
     <input type="text" th:field="*{title}" placeholder="Наименование" id="title">
+    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
     <br>
     <label for="description">Введите описание:</label>
     <textarea th:field="*{description}" placeholder="Описание" id="description"></textarea>
+    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
     <br>
     <label for="price">Введите цену:</label>
     <input type="number" th:field="*{price}" min="1" step="0.00" id="price">
+    <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
     <br>
     <label for="provider">Поставщик:</label>
     <input type="text" th:field="*{provider}" id="provider">
+    <div th:if="${#fields.hasErrors('provider')}" th:errors="*{provider}"></div>
+    <br>
+    <p>Вы можете добавить до 5 фотографии. Первая фотография не может быть пустой.</p>
+    <input type="file" name="file_one">
+    <input type="file" name="file_two">
+    <input type="file" name="file_three">
+    <input type="file" name="file_four">
+    <input type="file" name="file_five">
     <br>
     <input type="submit" value="Добавить">
 </form>

@@ -1,24 +1,40 @@
 package com.example.springsecurityapplication.controllers;
 
+import com.example.springsecurityapplication.models.Image;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.security.PersonDetails;
 import com.example.springsecurityapplication.services.ProductService;
+import com.example.springsecurityapplication.util.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/admin")
 //@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class AdminController {
 
+    @Value("/C:/Users/robin/uploads")
+    private String uploadPath;
+
+    private final ProductValidator productValidator;
+
     private final ProductService productService;
 
     @Autowired
-    public AdminController(ProductService productService) {
+    public AdminController(ProductValidator productValidator, ProductService productService) {
+        this.productValidator = productValidator;
         this.productService = productService;
     }
 
@@ -49,10 +65,115 @@ public class AdminController {
 
     // метод добавления продукта
     @PostMapping("/product/add")
-    public String addProduct(@ModelAttribute("product")Product product){
+    public String addProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, @RequestParam("file_one")MultipartFile file_one, @RequestParam("file_two")MultipartFile file_two, @RequestParam("file_three")MultipartFile file_three, @RequestParam("file_four")MultipartFile file_four, @RequestParam("file_five")MultipartFile file_five) throws IOException {
+
+// Данная операция проводится для всех добавляемых видов файла (у нас их 5)
+//
+
+        productValidator.validate(product, bindingResult);
+
+        // проверка на ошибки валидации
+        if (bindingResult.hasErrors()){
+            return "product/addProduct";
+        }
+
+        // проверка есть ли файл в переменной
+        if (file_one != null){
+            //оект по хранению пути сохранению
+            File uploadDir = new File(uploadPath);
+            // если данный путь не существует..
+            if (!uploadDir.exists()){
+                // ..то мы его создаем
+                uploadDir.mkdir();
+            }
+
+            // создаем уникальное имя файла
+            // UUID представляет неизмененный универсальный уникальный идентификатор
+            String uuidFile = UUID.randomUUID().toString();
+            // file_one.getOriginalFilename() - наименование файла с формы
+            String resultFileName = uuidFile + "." + file_one.getOriginalFilename();
+            // загружаем файл по указанному пути
+            file_one.transferTo(new File(uploadPath + "/" + resultFileName));
+            Image image = new Image(); // сздали объект для листа и далее нужно заполнить его поля
+            image.setProduct(product); // в качестве объета берется объект из формы
+            image.setFileName(resultFileName); // в качестве наименования берется то именование, которое сгенерировалось из наименования загруженного файла и добавления туда UUID
+            product.addImageProduct(image);
+
+        }
+
+//
+
+        if (file_two != null){
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file_two.getOriginalFilename();
+            file_two.transferTo(new File(uploadPath + "/" + resultFileName));
+            Image image = new Image();
+            image.setProduct(product);
+            image.setFileName(resultFileName);
+            product.addImageProduct(image);
+
+        }
+
+        if (file_three != null){
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file_three.getOriginalFilename();
+            file_three.transferTo(new File(uploadPath + "/" + resultFileName));
+            Image image = new Image();
+            image.setProduct(product);
+            image.setFileName(resultFileName);
+            product.addImageProduct(image);
+
+        }
+
+        if (file_four != null){
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file_four.getOriginalFilename();
+            file_four.transferTo(new File(uploadPath + "/" + resultFileName));
+            Image image = new Image();
+            image.setProduct(product);
+            image.setFileName(resultFileName);
+            product.addImageProduct(image);
+
+        }
+
+        if (file_five != null){
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file_five.getOriginalFilename();
+            file_five.transferTo(new File(uploadPath + "/" + resultFileName));
+            Image image = new Image();
+            image.setProduct(product);
+            image.setFileName(resultFileName);
+            product.addImageProduct(image);
+
+        }
+//
+
         productService.saveProduct(product);
         return "redirect:/admin";
     }
+
+
+
 
     // метод по заполнению формы для отправки продукта на редактирование
     @GetMapping("product/edit/{id}")

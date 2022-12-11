@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о товаре</title>
+</head>
+<body>
+
+<h3>Доступные товары</h3>
+
+<div th:each="img : ${product.getImageList()}">
+    <img th:src="'/img/' + ${img.getFileName()}">
+</div>
+
+<p th:text="'Наименование: ' + ${product.getTitle()}" />
+<p th:text="'Описание: ' + ${product.getDescription()}" />
+<p th:text="'Цена: ' + ${product.getPrice()}" />
+<p th:text="'Поставщик' + ${product.getProvider()}" />
+</body>
+</html>

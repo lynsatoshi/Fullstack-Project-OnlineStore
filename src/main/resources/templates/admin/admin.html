@@ -13,6 +13,7 @@
 <h3>Каталог товаров:</h3>
 <hr>
 <div th:each="product : ${products}">
+    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
     <p th:text="'Наименование: ' + ${product.getTitle()}" />
     <p th:text="'Описание: ' + ${product.getDescription()}" />
     <p th:text="'Цена: ' + ${product.getPrice()}" />

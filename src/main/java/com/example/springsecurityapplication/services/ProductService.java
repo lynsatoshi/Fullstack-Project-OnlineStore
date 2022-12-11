@@ -49,4 +49,10 @@ public class ProductService {
     public void deleteProduct(int id){
         productRepository.deleteById(id);
     }
+
+    // данный метод позволит получить товар по наименованию
+    public Product getProductFindByTitle(Product product){
+        Optional<Product> product_db = productRepository.findByTitle(product.getTitle());
+        return product_db.orElse(null);
+    }
 }

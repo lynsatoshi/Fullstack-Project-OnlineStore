@@ -4,6 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -27,6 +30,23 @@ public class Product {
     @Column(name = "provider", nullable = false)
     @NotEmpty(message = "Поле поставщика не может быть пустым")
     private String provider;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    List<Image> imageList = new ArrayList<>(); // изображение будет храниться в листе, поэтому был создан объект в файле AdminController
+
+    private LocalDateTime dataTimeOfCreated;
+
+    // будет заполняться дата и время при создании объекта класса
+    @PrePersist
+    private void init(){
+        dataTimeOfCreated = LocalDateTime.now();
+    }
+
+    // в этом методе получаем объет фотографии, который будет помещет в лист фотографий
+    public void addImageProduct(Image image){
+        image.setProduct(this); // указываем что работаеи с текущим продуктом
+        imageList.add(image); // и добавляем этот объект в лист
+    }
 
     public Product(String title, String description, float price, String provider) {
         this.title = title;
@@ -76,5 +96,21 @@ public class Product {
 
     public void setProvider(String seller) {
         this.provider = seller;
+    }
+
+    public List<Image> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
+    }
+
+    public LocalDateTime getDataTimeOfCreated() {
+        return dataTimeOfCreated;
+    }
+
+    public void setDataTimeOfCreated(LocalDateTime dataTimeOfCreated) {
+        this.dataTimeOfCreated = dataTimeOfCreated;
     }
 }
