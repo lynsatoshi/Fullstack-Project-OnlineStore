@@ -10,6 +10,38 @@
     <input type="submit" value="Выйти из личного кабинета">
 </form>
 
+<form th:method="POST" th:action="@{/product/search}">
+    <fieldset>
+        <legend>Выберите параметры для сортировки, поиска и фильтрации</legend>
+        <br>
+        <label for="search">Поиск по наивенованию</label>
+        <input type="search" id="search">
+        <p>Цена, Руб.</p>
+        <br>
+        <label for="min">От</label>
+        <input type="text" name="min" id="min">
+        <label for="max">До</label>
+        <input type="text" name="max" id="max">
+
+        <br><br>
+        <label for="ascending_price">Отсортировать по возрастанию цены</label>
+        <input type="radio" id="ascending_price" name="price">
+        <br>
+        <label for="descending_price">Отсортировать по убыванию цены</label>
+        <input type="radio" id="descending_price" name="price">
+
+        <br><br>
+        <p>Категория товаров</p>
+        <!--     сделать выпадающий список-->
+
+        <input type="radio" id="animal" name="category" value="furniture">
+        <label for="animal">Животные</label><br>
+
+        <br>
+        <button type="submit">Найти</button>
+    </fieldset>
+</form>
+
 <h3>Доступные товары</h3>
 <div th:each="product : ${products}">
 

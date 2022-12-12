@@ -2,6 +2,7 @@ package com.example.springsecurityapplication.controllers;
 
 import com.example.springsecurityapplication.models.Image;
 import com.example.springsecurityapplication.models.Product;
+import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
 import com.example.springsecurityapplication.services.ProductService;
 import com.example.springsecurityapplication.util.ProductValidator;
@@ -32,10 +33,14 @@ public class AdminController {
 
     private final ProductService productService;
 
+    private final CategoryRepository categoryRepository;
+
+
     @Autowired
-    public AdminController(ProductValidator productValidator, ProductService productService) {
+    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository) {
         this.productValidator = productValidator;
         this.productService = productService;
+        this.categoryRepository = categoryRepository;
     }
 
 
@@ -60,6 +65,7 @@ public class AdminController {
     @GetMapping("product/add")
     public String addProduct(Model model){
         model.addAttribute("product", new Product());
+        model.addAttribute("category", categoryRepository.findAll());
         return "product/addProduct";
     }
 
@@ -179,6 +185,7 @@ public class AdminController {
     @GetMapping("product/edit/{id}")
     public String editProduct(@PathVariable("id") int id, Model model){
         model.addAttribute("editProduct", productService.getProductId(id));
+        model.addAttribute("category", categoryRepository.findAll());
         return "product/editProduct";
     }
 

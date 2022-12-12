@@ -19,6 +19,13 @@
   <input type="number" th:field="*{price}" min="1" step="0.00" id="price">
   <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
   <br>
+  <label for="category">Выберите категорию товара:</label>
+  <select name="category" th:field="*{category}" id="category">
+    <div th:each="element : ${category}">
+      <option th:text="${element.getName()}" th:value="${element.getId()}" />
+    </div>
+  </select>
+  <br>
   <label for="provider">Поставщик:</label>
   <input type="text" th:field="*{provider}" id="provider">
   <div th:if="${#fields.hasErrors('provider')}" th:errors="*{provider}"></div>

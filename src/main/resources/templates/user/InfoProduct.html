@@ -8,7 +8,8 @@
     <p th:href="@{/product/info/{id}=(id=${product.getId()})}" th:text="${product.getTitle()}"/>
     <p th:text="'Описание: ' + ${product.getDescription()}" />
     <p th:text="'Цена: ' + ${product.getPrice()}" />
-    <p th:text="'Поставщик' + ${product.getProvider()}" />
+    <p th:text="'Поставщик: ' + ${product.getProvider()}" />
+    <p th:text="'Категория товара:' + ${product.getCategory().getName()}" />
 
     <div th:each="img : ${product.getImageList()}">
         <img th:src="'/img/' + ${img.getFileName()}">

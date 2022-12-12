@@ -34,6 +34,8 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
     List<Image> imageList = new ArrayList<>(); // изображение будет храниться в листе, поэтому был создан объект в файле AdminController
 
+    @ManyToOne(optional = false)
+    private Category category;
     private LocalDateTime dataTimeOfCreated;
 
     // будет заполняться дата и время при создании объекта класса
@@ -112,5 +114,13 @@ public class Product {
 
     public void setDataTimeOfCreated(LocalDateTime dataTimeOfCreated) {
         this.dataTimeOfCreated = dataTimeOfCreated;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
