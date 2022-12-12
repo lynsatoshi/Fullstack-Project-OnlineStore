@@ -173,7 +173,6 @@ public class AdminController {
 
         }
 //
-
         productService.saveProduct(product);
         return "redirect:/admin";
     }

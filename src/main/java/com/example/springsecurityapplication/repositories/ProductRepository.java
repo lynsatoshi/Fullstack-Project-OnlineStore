@@ -21,18 +21,18 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByTitleAndPriceGreaterThenEqualAndPriceLessThen(String title, float min, float max);
 
     // поиск по части наименования товара и фильтрация по диапазону цен, сортировка по возрастанию
-    @Query(value = "select * from product where ((lower(title) like %?1%) or (lower(title) like '?1%') or (lower(title) like '%?1') and (price >= ?2 and price <= ?3) order by price asc)", nativeQuery = true)
+    @Query(value = "select * from product where ((lower(title) like %?1%) or (lower(title) like '?1%') or (lower(title) like '%?1') and (price >= ?2 and price <= ?3) order by price)", nativeQuery = true)
     List<Product> findByTitleOrderByPrice(String title, float min, float max);
 
     // поиск по части наименования товара и фильтрация по диапазону цен, сортировка по убыванию
     @Query(value = "select * from product where ((lower(title) like %?1%) or (lower(title) like '?1%') or (lower(title) like '%?1') and (price >= ?2 and price <= ?3) order by price desc)", nativeQuery = true)
-    List<Product> findByTitleOrderByPriceВуыс(String title, float min, float max);
+    List<Product> findByTitleOrderByPriceDesc(String title, float min, float max);
 
     // поиск по части наименования товара и фильтрация по диапазону цен, сортировка по возрастанию, фильтрация по категории
-    @Query(value = "select * from product where ((lower(title) like %?1%) or (lower(title) like '?1%') or (lower(title) like '%?1') and (price >= ?2 and price <= ?3) and category_id=? order by price)", nativeQuery = true)
+    @Query(value = "select * from product where category_id=?4 and ((lower(title) like %?1%) or (lower(title) like '?1%') or (lower(title) like '%?1')) and (price >= ?2 and price <= ?3) order by price", nativeQuery = true)
     List<Product> findByTitleAndCategoryOrderByPrice(String title, float min, float max, int category);
 
     // поиск по части наименования товара и фильтрация по диапазону цен, сортировка по убыванию, фильтрация по категории
-    @Query(value = "select * from product where ((lower(title) like %?1%) or (lower(title) like '?1%') or (lower(title) like '%?1') and (price >= ?2 and price <= ?3) and category_id=? order by price desc)", nativeQuery = true)
+    @Query(value = "select * from product where category_id=?4 and ((lower(title) like %?1%) or (lower(title) like '?1%')) or (lower(title) like '%?1') and (price >= ?2 and price <= ?3) order by price desc", nativeQuery = true)
     List<Product> findByTitleAndCategoryOrderByPriceDesc(String title, float min, float max, int category);
 }

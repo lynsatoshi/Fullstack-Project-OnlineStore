@@ -35,17 +35,22 @@ public class MainController {
 
     @PostMapping("/search")
     public String productSearch(@RequestParam("search") String search, @RequestParam("min") String min, @RequestParam("max") String max, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "category", required = false, defaultValue = "") String category, Model model){
+//        System.out.println(search);
+//        System.out.println(min);
+//        System.out.println(max);
+//        System.out.println(price);
+//        System.out.println(category);
         // если диапозон цен ОТ и ДО не пустой
-        if (!min.isEmpty() & !max.isEmpty()){
+        if (!min.isEmpty() & !max.isEmpty()) {
             // если сортировка по цене выбрана
-            if (!price.isEmpty()){
+            if (!price.isEmpty()) {
                 // если в качестве сортировки выбрана сортировка по возрастанию
-                if (price.equals("sorted_by_ascending_price")){
+                if (price.equals("sorted_by_ascending_price")) {
 
                     // если категория товара не пустая
-                    if (!category.isEmpty()){
-                            // если категория равна animal
-                        if (category.equals("animal")){
+                    if (!category.isEmpty()) {
+                        // если категория равна animal
+                        if (category.equals("animal")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPrice(search.toLowerCase(), Float.parseFloat(min), Float.parseFloat(max), 1));
                         } else if (category.equals("feed")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPrice(search.toLowerCase(), Float.parseFloat(min), Float.parseFloat(max), 2));
@@ -63,11 +68,11 @@ public class MainController {
                     }
 
                     // если сортировка выбрана по убыванию
-                } else if (price.equals("sorted_by_descending_price")){
+                } else if (price.equals("sorted_by_descending_price")) {
 
-                    if (!category.isEmpty()){
+                    if (!category.isEmpty()) {
 
-                        if (category.equals("animal")){
+                        if (category.equals("animal")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(min), Float.parseFloat(max), 1));
                         } else if (category.equals("feed")) {
                             model.addAttribute("search_product", productRepository.findByTitleAndCategoryOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(min), Float.parseFloat(max), 2));
@@ -80,7 +85,7 @@ public class MainController {
                         }
 
                     } else {
-                        model.addAttribute("search_product", productRepository.findByTitleOrderByPrice(search.toLowerCase(), Float.parseFloat(min), Float.parseFloat(max)));
+                        model.addAttribute("search_product", productRepository.findByTitleOrderByPriceDesc(search.toLowerCase(), Float.parseFloat(min), Float.parseFloat(max)));
                     }
                 }
             } else {
@@ -93,7 +98,7 @@ public class MainController {
         model.addAttribute("value_search", search);
         model.addAttribute("value_min", min);
         model.addAttribute("value_max", max);
-        model.addAttribute("products", productService.getAllProduct());
+//        model.addAttribute("products", productService.getAllProduct());
         return "product/product";
     }
 }
