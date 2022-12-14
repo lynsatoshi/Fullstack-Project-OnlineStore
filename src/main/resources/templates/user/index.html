@@ -23,51 +23,32 @@
         <legend>Выберите параметры для сортировки, поиска и фильтрации</legend>
         <br>
         <label for="search">Поиск по наивенованию</label>
-        <input type="search" name="search" th:value="*{value_search}" id="search">
+        <input type="search" id="search">
         <p>Цена, Руб.</p>
         <br>
         <label for="min">От</label>
-        <input type="text" name="min" th:value="*{value_min}" id="min">
+        <input type="text" name="min" id="min">
         <label for="max">До</label>
-        <input type="text" name="max" th:value="*{value_max}" id="max">
+        <input type="text" name="max" id="max">
 
         <br><br>
-        <input type="radio" id="ascending_price"  name="price" value="sorted_by_ascending_price">
         <label for="ascending_price">Отсортировать по возрастанию цены</label>
+        <input type="radio" id="ascending_price" name="price">
         <br>
-        <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
         <label for="descending_price">Отсортировать по убыванию цены</label>
+        <input type="radio" id="descending_price" name="price">
 
         <br><br>
         <p>Категория товаров</p>
         <!--     сделать выпадающий список-->
 
-        <input type="radio" id="animal" name="category" value="animal">
+        <input type="radio" id="animal" name="category" value="furniture">
         <label for="animal">Животные</label><br>
-        <input type="radio" id="feed" name="category" value="feed">
-        <label for="animal">Корма и добавки</label><br>
-        <input type="radio" id="terrariums" name="category" value="terrariums">
-        <label for="animal">Террариумы</label><br>
-        <input type="radio" id="equipment" name="category" value="equipment">
-        <label for="animal">Оборудование</label><br>
-        <input type="radio" id="decor" name="category" value="decor">
-        <label for="animal">Декорации</label><br>
 
         <br>
         <button type="submit">Найти</button>
     </fieldset>
 </form>
-
-<h3>Результат:</h3>
-<div th:each="product : ${search_product}">
-
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}">
-    <br>
-    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" />
-    <p th:text="'Цена: ' + ${product.getPrice()}" />
-    <br>
-    <p th:text="'Категория товара:' + ${product.getCategory().getName()}" />
-</div>
 
 <h3>Доступные товары</h3>
 <hr>
