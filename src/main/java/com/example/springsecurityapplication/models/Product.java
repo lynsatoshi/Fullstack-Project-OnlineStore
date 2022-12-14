@@ -41,6 +41,11 @@ public class Product {
     @JoinTable(name = "product_cart", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "person_id"))
     private List<Person> personList;
 
+    // работа с заказом продукта
+
+    @OneToMany(mappedBy = "product")
+    private List<Order> orderList;
+
     private LocalDateTime dataTimeOfCreated;
 
     // будет заполняться дата и время при создании объекта класса

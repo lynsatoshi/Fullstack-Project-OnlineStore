@@ -1,8 +1,11 @@
 package com.example.springsecurityapplication.controllers;
 
+import com.example.springsecurityapplication.enumm.Status;
 import com.example.springsecurityapplication.models.Cart;
+import com.example.springsecurityapplication.models.Order;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CartRepository;
+import com.example.springsecurityapplication.repositories.OrderRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
 import com.example.springsecurityapplication.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +18,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class UserController {
+
+    private final OrderRepository orderRepository;
     private final ProductService productService;
     private final CartRepository cartRepository;
 
     @Autowired
-    public UserController(ProductService productService, CartRepository cartRepository) {
+    public UserController(OrderRepository orderRepository, ProductService productService, CartRepository cartRepository) {
+        this.orderRepository = orderRepository;
         this.productService = productService;
         this.cartRepository = cartRepository;
     }
@@ -104,5 +111,45 @@ public class UserController {
         // нужен метод, который позволит удалить товар из корзины по определенному условию (-> репозиторий)
         cartRepository.deleteCartById(id, id_person);
         return "redirect:/cart";
+    }
+
+    // работа с заказами
+
+    @GetMapping("/order/create")
+    public String createOrder(){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        int id_person = personDetails.getPerson().getId();
+
+        // по id получаем всю корзину пользователя из листа. получаем все продукты из заказа.
+        List<Cart> cartList = cartRepository.findByPersonId((id_person));
+        List<Product> productList = new ArrayList<>();
+        for (Cart cart: cartList
+        ) {
+            productList.add(productService.getProductId(cart.getProductId()));
+        }
+
+        String uuid = UUID.randomUUID().toString();
+
+        for (Product product: productList
+             ) {
+            Order newOrder = new Order(uuid, 1, product.getPrice(), Status.Оформлен, product, personDetails.getPerson());
+            orderRepository.save(newOrder);
+            cartRepository.deleteCartById(product.getId(), id_person);
+        }
+
+        return "redirect:/orders";
+
+    }
+
+    // история заказов пользователя
+    @GetMapping("/orders")
+    public String ordersUser(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        List<Order> orderList = orderRepository.findByPerson((personDetails.getPerson()));
+        model.addAttribute("orders", orderList);
+        return "/user/orders";
     }
 }
