@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+<body>
+<h3>Список выбранных продуктов</h3>
+<div th:each="product : ${cart_product}">
+
+  <img th:src="'/img/' + ${product.imageList[0].getFileName()}">
+  <br>
+  <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" />
+  <p th:text="'Цена: ' + ${product.getPrice()}" />
+  <br>
+  <a th:href="@{/cart/delete/{id}(id=${product.getId()})}">Удалить</a>
+  <br>
+  <p th:text="'Категория товара:' + ${product.getCategory().getName()}" />
+</div>
+<h3 th:text="'Итоговая цена: ' + ${price}" />
+<a href="/order/create">Оформить заказ</a>
+</body>
+</html>

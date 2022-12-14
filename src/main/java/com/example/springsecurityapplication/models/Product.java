@@ -36,6 +36,11 @@ public class Product {
 
     @ManyToOne(optional = false)
     private Category category;
+
+    @ManyToMany()
+    @JoinTable(name = "product_cart", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "person_id"))
+    private List<Person> personList;
+
     private LocalDateTime dataTimeOfCreated;
 
     // будет заполняться дата и время при создании объекта класса
