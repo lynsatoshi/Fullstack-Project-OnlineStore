@@ -160,11 +160,11 @@ public class UserController {
 
     @PostMapping("index/search")
     public String productSearch(@RequestParam("search") String search, @RequestParam("min") String min, @RequestParam("max") String max, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "category", required = false, defaultValue = "") String category, Model model){
-//        System.out.println(search);
-//        System.out.println(min);
-//        System.out.println(max);
-//        System.out.println(price);
-//        System.out.println(category);
+        System.out.println(search);
+        System.out.println(min);
+        System.out.println(max);
+        System.out.println(price);
+        System.out.println(category);
         // если диапозон цен ОТ и ДО не пустой
         if (!min.isEmpty() & !max.isEmpty()) {
             // если сортировка по цене выбрана
@@ -223,6 +223,8 @@ public class UserController {
         model.addAttribute("value_search", search);
         model.addAttribute("value_min", min);
         model.addAttribute("value_max", max);
+        model.addAttribute("value_price", price);
+        model.addAttribute("value_category", category);
 //        model.addAttribute("products", productService.getAllProduct());
         return "user/index";
     }

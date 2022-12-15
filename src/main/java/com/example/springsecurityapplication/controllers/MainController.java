@@ -98,6 +98,9 @@ public class MainController {
         model.addAttribute("value_search", search);
         model.addAttribute("value_min", min);
         model.addAttribute("value_max", max);
+        model.addAttribute("value_price", price);
+        model.addAttribute("value_category", category);
+
 //        model.addAttribute("products", productService.getAllProduct());
         return "product/product";
     }
