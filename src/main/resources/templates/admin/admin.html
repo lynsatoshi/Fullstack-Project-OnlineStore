@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Администрирование</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
-<!--<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
         <p class="navbar-brand"><h1>Rept</h1> интернет-магазин экзотических животных</p>
         <div class="d-flex">
@@ -19,22 +20,16 @@
     </div>
 </nav>
 
-<div class="h3" style="text-align: center;">Личный кабинет администратора</div>-->
+<div class="h3" style="text-align: center;">Личный кабинет администратора</div>
 
-<!--<form th:method="POST" th:action="@{/logout}">
-    <input type="submit" value="Выйти из личного кабинета">
-</form>-->
+<ul class="list-group list-group-flush">
+    <li class="list-group-item"><a class="nav-link" href="/admin/product/add">Добавить товар</a></li>
+    <li class="list-group-item">Просмотреть заказы (изменять статус)</li>
+    <li class="list-group-item">Просмотреть пользователей (смена роли у пользователя)</li>
+</ul>
 
-<!--<ul class="list-group list-group-flush">
-    <li class="list-group-item">An item</li>
-    <li class="list-group-item">A second item</li>
-    <li class="list-group-item">A third item</li>
-    <li class="list-group-item">A fourth item</li>
-    <li class="list-group-item">And a fifth one</li>
-</ul>-->
+<div class="h3">Каталог товаров:</div>
 
-<a href="/admin/product/add">Добавить товар</a>
-<h3>Каталог товаров:</h3>
 <hr>
 <div th:each="product : ${products}">
     <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
@@ -42,10 +37,9 @@
     <p th:text="'Описание: ' + ${product.getDescription()}" />
     <p th:text="'Цена: ' + ${product.getPrice()}" />
     <p th:text="'Поставщик: ' + ${product.getProvider()}" />
-    <p th:text="'Категория товара:' + ${product.getCategory().getName()}" />
-    <br>
     <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактировать товар</a>
     <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удалить товар</a>
+    <hr>
 </div>
 </body>
 </html>

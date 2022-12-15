@@ -60,7 +60,7 @@
                         <label for="animal">Декорации</label><br>
 
                         <br>
-                        <button type="submit">Найти</button>
+                        <button class="btn btn-primary" type="submit">Найти</button>
                     </fieldset>
                 </form>
             </div>
@@ -75,7 +75,7 @@
 
                     <img style="width: 100px;" th:src="'/img/' + ${product.imageList[0].getFileName()}">
                     <br>
-                    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" id="title" />
+                    <a class="nav-link" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" id="title" />
                     <p th:text="'Цена: ' + ${product.getPrice()}" />
                     <p th:text="'Категория товара:' + ${product.getCategory().getName()}" />
                 </div>
@@ -87,7 +87,7 @@
 
                         <img style="width: 100px;" th:src="'/img/' + ${product.imageList[0].getFileName()}">
                         <br>
-                        <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" />
+                        <a class="nav-link" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" />
                         <p th:text="'Цена: ' + ${product.getPrice()}" />
                         <br>
                         <p th:text="'Категория товара:' + ${product.getCategory().getName()}" />
@@ -99,12 +99,6 @@
 
     </div>
 </div>
-
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
-    </div>
-</footer>
 
 </body>
 </html>
