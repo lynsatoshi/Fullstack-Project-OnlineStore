@@ -3,63 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <title>Личный кабинет</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
 <body>
-<h3>Личный кабинет пользователя</h3>
-<form method="post" th:action="@{/logout}">
-    <input type="submit" value="Выйти из личного кабинета">
-</form>
 
-<form method="get" th:action="@{/cart}">
-    <input type="submit" value="Корзина">
-</form>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <p class="navbar-brand"><h1>Rept</h1> интернет-магазин экзотических животных</p>
+        <div class="d-flex">
 
-<form method="get" th:action="@{/orders}">
-    <input type="submit" value="Заказы">
-</form>
+            <div style="margin-right: 10px; border-radius: 5px;" class="btn">
+                <form method="get" th:action="@{/orders}">
+                    <input type="submit" value="Заказы">
+                </form>
+            </div>
 
-<form th:method="POST" th:action="@{/product/search}">
-    <fieldset>
-        <legend>Выберите параметры для сортировки, поиска и фильтрации</legend>
-        <br>
-        <label for="search">Поиск по наивенованию</label>
-        <input type="search" id="search">
-        <p>Цена, Руб.</p>
-        <br>
-        <label for="min">От</label>
-        <input type="text" name="min" id="min">
-        <label for="max">До</label>
-        <input type="text" name="max" id="max">
+            <div style="margin-right: 10px; border-radius: 5px;" class="btn">
+                <form method="get" th:action="@{/cart}">
+                    <input type="submit" value="Корзина">
+                </form>
+            </div>
 
-        <br><br>
-        <label for="ascending_price">Отсортировать по возрастанию цены</label>
-        <input type="radio" id="ascending_price" name="price">
-        <br>
-        <label for="descending_price">Отсортировать по убыванию цены</label>
-        <input type="radio" id="descending_price" name="price">
+            <div style="margin-right: 10px; border-radius: 5px;" class="btn">
+                <form method="post" th:action="@{/logout}">
+                    <input type="submit" value="Выйти из личного кабинета">
+                </form>
+            </div>
 
-        <br><br>
-        <p>Категория товаров</p>
-        <!--     сделать выпадающий список-->
+        </div>
+    </div>
+</nav>
 
-        <input type="radio" id="animal" name="category" value="furniture">
-        <label for="animal">Животные</label><br>
 
-        <br>
-        <button type="submit">Найти</button>
-    </fieldset>
-</form>
 
-<h3>Доступные товары</h3>
-<hr>
-<div th:each="product : ${products}">
 
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}">
-    <br>
-    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" id="title" />
-    <p th:text="'Цена: ' + ${product.getPrice()}" />
-    <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в козрину</a>
-    <hr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"></a>
+                <hr>
+                <form th:method="POST" th:action="@{/product/search}">
+                    <fieldset>
+                        <h5>Выберите параметры для сортировки, поиска и фильтрации</h5>
+                        <br>
+                        <label for="search"><h6>Поиск по наименованию:</h6></label>
+                        <input type="search" name="search" th:value="*{value_search}" id="search">
+                        <br>
+                        <br>
+                        <p><h6>Отсортировать по цене, RUB</h6></p>
+                        <label for="min">От</label>
+                        <input type="text" name="min" th:value="*{value_min}" id="min">
+                        <br>
+                        <br><label for="max">До</label>
+                        <input type="text" name="max" th:value="*{value_max}" id="max">
+
+                        <br><br>
+                        <input type="radio" id="ascending_price"  name="price" value="sorted_by_ascending_price">
+                        <label for="ascending_price">По возрастанию цены</label>
+                        <br>
+                        <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
+                        <label for="descending_price">По убыванию цены</label>
+
+                        <br><br>
+                        <p><h6>Категория товаров</h6></p>
+
+                        <input type="radio" id="animal" name="category" value="animal">
+                        <label for="animal">Животные</label><br>
+                        <input type="radio" id="feed" name="category" value="feed">
+                        <label for="animal">Корма и добавки</label><br>
+                        <input type="radio" id="terrariums" name="category" value="terrariums">
+                        <label for="animal">Террариумы</label><br>
+                        <input type="radio" id="equipment" name="category" value="equipment">
+                        <label for="animal">Оборудование</label><br>
+                        <input type="radio" id="decor" name="category" value="decor">
+                        <label for="animal">Декорации</label><br>
+
+                        <br>
+                        <button type="submit">Найти</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="col">
+            <h3>Доступные товары</h3>
+
+            <div class="row">
+                <div th:each="product : ${products}" style="width: 250px; height: 300px; margin: 5px; text-align: center; border: 1px dotted cadetblue; border-radius: 20px;">
+
+                    <img style="width: 100px;" th:src="'/img/' + ${product.imageList[0].getFileName()}">
+                    <br>
+                    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" id="title" />
+                    <p th:text="'Цена: ' + ${product.getPrice()}" />
+                    <p th:text="'Категория товара:' + ${product.getCategory().getName()}" />
+                    <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в козрину</a>
+                </div>
+
+                <h3>Результат:</h3>
+
+                <div class="row">
+                    <div th:each="product : ${products}">
+
+                        <img style="width: 100px;" th:src="'/img/' + ${product.imageList[0].getFileName()}">
+                        <br>
+                        <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" id="title" />
+                        <p th:text="'Цена: ' + ${product.getPrice()}" />
+                        <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в козрину</a>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
+
+<!--<h3>Доступные товары</h3>-->
+<!--<hr>-->
+<!--<div th:each="product : ${products}">-->
+
+<!--    <img th:src="'/img/' + ${product.imageList[0].getFileName()}">-->
+<!--    <br>-->
+<!--    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" id="title" />-->
+<!--    <p th:text="'Цена: ' + ${product.getPrice()}" />-->
+<!--    <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в козрину</a>-->
+<!--    <hr>-->
+<!--</div>-->
 </body>
 </html>
