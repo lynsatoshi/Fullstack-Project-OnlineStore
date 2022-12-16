@@ -1,8 +1,10 @@
 package com.example.springsecurityapplication.controllers;
 
 import com.example.springsecurityapplication.models.Image;
+import com.example.springsecurityapplication.models.Order;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
+import com.example.springsecurityapplication.repositories.OrderRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
 import com.example.springsecurityapplication.services.ProductService;
 import com.example.springsecurityapplication.util.ProductValidator;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -35,12 +38,15 @@ public class AdminController {
 
     private final CategoryRepository categoryRepository;
 
+    private final OrderRepository orderRepository;
+
 
     @Autowired
-    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository) {
+    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderRepository orderRepository) {
         this.productValidator = productValidator;
         this.productService = productService;
         this.categoryRepository = categoryRepository;
+        this.orderRepository = orderRepository;
     }
 
 
@@ -200,5 +206,14 @@ public class AdminController {
     public String deleteProduct(@PathVariable("id") int id){
         productService.deleteProduct(id);
         return "redirect:/admin";
+    }
+
+    // метод вывода заказов всех пользователей
+    @GetMapping("/orders")
+    public String ordersUser(@PathVariable("id") int id, Model model){
+
+
+
+        return "/admin/orderList";
     }
 }
