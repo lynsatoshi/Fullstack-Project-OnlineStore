@@ -18,7 +18,6 @@
 
 <div class="h3" style="text-align: center;">Заказы</div>
 <div th:each="order : ${orders}">
-
     <h3 th:text="'Заказ №' + ${order.getNumber()}"></h3>
     <img style="width: 100px;" th:src="'/img/' + ${order.getProduct().imageList[0].getFileName()}">
     <br>

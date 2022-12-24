@@ -11,24 +11,32 @@
     <div class="container-fluid">
         <p class="navbar-brand"><h1>Rept</h1> интернет-магазин экзотических животных</p>
         <div class="d-flex">
-            <a class="nav-link" href="/auth/login">Войти</a>
-            <a class="nav-link" href="/auth/registration">Зарегистрироваться</a>
+            <a class="nav-link" href="/admin">Вернуться назад</a>
         </div>
     </div>
 </nav>
 
 <div class="h3">Список заказов</div>
 
-<div th:each="order : ${orders}">
+<div th:each="orders : ${ordersList}">
 
-    <h3 th:text="'Заказ №' + ${order.o}"></h3>
-    <img style="width: 100px;" th:src="'/img/' + ${order.getProduct().imageList[0].getFileName()}">
-    <br>
-    <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}" />
-    <p th:text="'Количество: ' + ${order.getCount()}" />
-    <p th:text="'Цена: ' + ${order.getPrice()}" />
-    <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}" />
-    <p th:text="'Статус: ' + ${order.getStatus()}" />
+
+    <p th:text="'Номер заказа: ' + ${orders.getNumber()}" />
+    <p th:text="'ID пользователя: ' + ${orders.getPerson().getId()}" />
+    <p th:text="'Логин пользователя: ' + ${orders.getPerson().getLogin()}" />
+    <p th:text="'Дата заказа: ' + ${#temporals.format(orders.getDateTime(), 'dd-MMM-yyyy')}" />
+<!--    <p th:text="'Продукты: ' + ${orders.getProduct()}" />-->
+    <p>Заказанные продукты:</p>
+    <p>Пока в разработке :с</p>
+<!--    <div th:each="product : ${ordersList}">
+        <p th:if="${product.getPerson().getId() == product.getId()}" th:text="'ID заказа: ' + ${product.getId()}" />
+        <p th:if="${product.getPerson().getId() == product.getId()}" th:text="'Продукт: ' + ${product.getTitle()}" />
+        <p th:if="${product.getPerson().getId() == product.getId()}" th:text="${product.getPrice()}"/>
+    </div>-->
+    <h5 th:text="'Сумма: ' + ${orders.getPrice()}" />
+    <p th:text="'Статус: ' + ${orders.getStatus()}" />
+    <h4>Обновить статус заказа:</h4>
+    <button type="submit">Изменить статус заказа</button>
     <hr>
 </div>
 

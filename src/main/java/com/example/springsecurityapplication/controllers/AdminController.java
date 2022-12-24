@@ -1,7 +1,6 @@
 package com.example.springsecurityapplication.controllers;
 
 import com.example.springsecurityapplication.models.Image;
-import com.example.springsecurityapplication.models.Order;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.repositories.OrderRepository;
@@ -21,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -39,7 +37,6 @@ public class AdminController {
     private final CategoryRepository categoryRepository;
 
     private final OrderRepository orderRepository;
-
 
     @Autowired
     public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderRepository orderRepository) {
@@ -209,11 +206,17 @@ public class AdminController {
     }
 
     // метод вывода заказов всех пользователей
-    @GetMapping("/orders")
-    public String ordersUser(@PathVariable("id") int id, Model model){
+    @GetMapping("orderList")
+    public String ordersUsers(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
+        String role = personDetails.getPerson().getRole();
 
-
+        if (role.equals("ROLE_USER")){
+            return "redirect:/index";
+        }
+        model.addAttribute("ordersList", orderRepository.findAll());
         return "/admin/orderList";
     }
 }
