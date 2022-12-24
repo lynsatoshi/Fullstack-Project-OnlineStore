@@ -25,14 +25,8 @@
     <p th:text="'ID пользователя: ' + ${orders.getPerson().getId()}" />
     <p th:text="'Логин пользователя: ' + ${orders.getPerson().getLogin()}" />
     <p th:text="'Дата заказа: ' + ${#temporals.format(orders.getDateTime(), 'dd-MMM-yyyy')}" />
-<!--    <p th:text="'Продукты: ' + ${orders.getProduct()}" />-->
     <p>Заказанные продукты:</p>
-    <p>Пока в разработке :с</p>
-<!--    <div th:each="product : ${ordersList}">
-        <p th:if="${product.getPerson().getId() == product.getId()}" th:text="'ID заказа: ' + ${product.getId()}" />
-        <p th:if="${product.getPerson().getId() == product.getId()}" th:text="'Продукт: ' + ${product.getTitle()}" />
-        <p th:if="${product.getPerson().getId() == product.getId()}" th:text="${product.getPrice()}"/>
-    </div>-->
+    <p th:text="'Продукты: ' + ${orders.getProduct().getTitle()}" />
     <h5 th:text="'Сумма: ' + ${orders.getPrice()}" />
     <p th:text="'Статус: ' + ${orders.getStatus()}" />
     <h4>Обновить статус заказа:</h4>

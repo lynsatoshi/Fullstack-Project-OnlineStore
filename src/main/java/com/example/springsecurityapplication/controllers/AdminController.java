@@ -1,10 +1,13 @@
 package com.example.springsecurityapplication.controllers;
 
 import com.example.springsecurityapplication.models.Image;
+import com.example.springsecurityapplication.models.Person;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.repositories.OrderRepository;
+import com.example.springsecurityapplication.repositories.PersonRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
+import com.example.springsecurityapplication.services.OrderService;
 import com.example.springsecurityapplication.services.ProductService;
 import com.example.springsecurityapplication.util.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -217,6 +220,7 @@ public class AdminController {
             return "redirect:/index";
         }
         model.addAttribute("ordersList", orderRepository.findAll());
+        model.addAttribute("personalProduct", productService.getAllProduct());
         return "/admin/orderList";
     }
 }
