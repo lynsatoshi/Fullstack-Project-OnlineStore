@@ -11,13 +11,19 @@
     <div class="container-fluid">
         <p class="navbar-brand"><h1>Rept</h1> интернет-магазин экзотических животных</p>
         <div class="d-flex">
-            <a class="nav-link" href="/auth/login">Войти</a>
-            <a class="nav-link" href="/auth/registration">Зарегистрироваться</a>
+            <a class="nav-link" href="/admin">Вернуться назад</a>
         </div>
     </div>
 </nav>
 
 <div class="h3">Список пользователей</div>
+
+<div th:each="person : ${userList}">
+    <p th:text="'ID: ' + ${person.getId()}" />
+    <p th:text="'Логин: ' + ${person.getLogin()}" />
+    <p th:text="'Статус: ' + ${person.getRole()}" />
+    <hr>
+</div>
 
 </body>
 </html>

@@ -1,11 +1,10 @@
 package com.example.springsecurityapplication.controllers;
 
-import com.example.springsecurityapplication.enumm.Status;
 import com.example.springsecurityapplication.models.Image;
-import com.example.springsecurityapplication.models.Order;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.repositories.OrderRepository;
+import com.example.springsecurityapplication.repositories.PersonRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
 import com.example.springsecurityapplication.services.OrderService;
 import com.example.springsecurityapplication.services.ProductService;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -42,14 +40,16 @@ public class AdminController {
     private final OrderService orderService;
 
     private final OrderRepository orderRepository;
+    private final PersonRepository personRepository;
 
     @Autowired
-    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderService orderService, OrderRepository orderRepository) {
+    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderService orderService, OrderRepository orderRepository, PersonRepository personRepository) {
         this.productValidator = productValidator;
         this.productService = productService;
         this.categoryRepository = categoryRepository;
         this.orderService = orderService;
         this.orderRepository = orderRepository;
+        this.personRepository = personRepository;
     }
 
 
@@ -228,16 +228,15 @@ public class AdminController {
     // метод вывода заказов всех пользователей
     @GetMapping("orderList")
     public String ordersUsers(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-
-        String role = personDetails.getPerson().getRole();
-
-        if (role.equals("ROLE_USER")){
-            return "redirect:/index";
-        }
         model.addAttribute("ordersList", orderRepository.findAll());
         model.addAttribute("personalProduct", productService.getAllProduct());
         return "/admin/orderList";
+    }
+
+    // метод вывода списка пользователей
+    @GetMapping("userList")
+    public String userList(Model model){
+        model.addAttribute("userList", personRepository.findAll());
+        return "/admin/userList";
     }
 }
