@@ -1,8 +1,8 @@
 package com.example.springsecurityapplication.repositories;
 
+import com.example.springsecurityapplication.enumm.Status;
 import com.example.springsecurityapplication.models.Order;
 import com.example.springsecurityapplication.models.Person;
-import com.example.springsecurityapplication.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

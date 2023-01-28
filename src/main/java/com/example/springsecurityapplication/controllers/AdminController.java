@@ -1,11 +1,11 @@
 package com.example.springsecurityapplication.controllers;
 
+import com.example.springsecurityapplication.enumm.Status;
 import com.example.springsecurityapplication.models.Image;
-import com.example.springsecurityapplication.models.Person;
+import com.example.springsecurityapplication.models.Order;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.repositories.OrderRepository;
-import com.example.springsecurityapplication.repositories.PersonRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
 import com.example.springsecurityapplication.services.OrderService;
 import com.example.springsecurityapplication.services.ProductService;
@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -38,14 +39,16 @@ public class AdminController {
     private final ProductService productService;
 
     private final CategoryRepository categoryRepository;
+    private final OrderService orderService;
 
     private final OrderRepository orderRepository;
 
     @Autowired
-    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderRepository orderRepository) {
+    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderService orderService, OrderRepository orderRepository) {
         this.productValidator = productValidator;
         this.productService = productService;
         this.categoryRepository = categoryRepository;
+        this.orderService = orderService;
         this.orderRepository = orderRepository;
     }
 
@@ -200,6 +203,20 @@ public class AdminController {
         productService.updateProduct(id, product);
         return "redirect:/admin";
     }
+/*
+    // измнение статуса заказа
+    @GetMapping("/editStatus/{id}")
+    public String editStatus(@PathVariable("id") int id, Model model){
+        model.addAttribute("editStatus", orderService.getOrderId(id));
+        model.addAttribute("status", Status.values());
+        return "admin/editStatus";
+    }
+
+    @PostMapping("/editStatus/{id}")
+    public String editStatus(@ModelAttribute("editStatus") Order order, @PathVariable("id") int id){
+        orderService.updateStatus(order.getStatus(), id);
+        return "redirect:/orderList";
+    }*/
 
     // метод удаления продукта
     @GetMapping("/product/delete/{id}")
