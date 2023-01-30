@@ -1,12 +1,14 @@
 package com.example.springsecurityapplication.controllers;
 
 import com.example.springsecurityapplication.models.Image;
+import com.example.springsecurityapplication.models.Person;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.repositories.OrderRepository;
 import com.example.springsecurityapplication.repositories.PersonRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
 import com.example.springsecurityapplication.services.OrderService;
+import com.example.springsecurityapplication.services.PersonService;
 import com.example.springsecurityapplication.services.ProductService;
 import com.example.springsecurityapplication.util.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +43,17 @@ public class AdminController {
 
     private final OrderRepository orderRepository;
     private final PersonRepository personRepository;
+    private final PersonService personService;
 
     @Autowired
-    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderService orderService, OrderRepository orderRepository, PersonRepository personRepository) {
+    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, OrderService orderService, OrderRepository orderRepository, PersonRepository personRepository, PersonService personService) {
         this.productValidator = productValidator;
         this.productService = productService;
         this.categoryRepository = categoryRepository;
         this.orderService = orderService;
         this.orderRepository = orderRepository;
         this.personRepository = personRepository;
+        this.personService = personService;
     }
 
 
@@ -238,5 +242,12 @@ public class AdminController {
     public String userList(Model model){
         model.addAttribute("userList", personRepository.findAll());
         return "/admin/userList";
+    }
+
+    // изменение роли
+    @PostMapping("userList")
+    public String editStatus(@ModelAttribute("editRole") Person person){
+        personRepository.save(person);
+        return "redirect:/userList";
     }
 }

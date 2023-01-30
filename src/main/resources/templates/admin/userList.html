@@ -21,7 +21,21 @@
 <div th:each="person : ${userList}">
     <p th:text="'ID: ' + ${person.getId()}" />
     <p th:text="'Логин: ' + ${person.getLogin()}" />
-    <p th:text="'Статус: ' + ${person.getRole()}" />
+    <p th:text="'Роль: ' + ${person.getRole()}" />
+
+    <form th:method="POST" th:action="@{/admin/userList}" th:object="${userList}">
+        <label for="role"><h4>Изменить роль пользователя:</h4></label>
+        <select name="editRole" th:field="*{}" id="role">
+            <div th:each="element : ${userList}">
+                <option th:text="${element.getRole()}" th:value="${element.getRole()}" />
+            </div>
+        </select>
+
+        <div style="margin: 10px">
+            <input class="btn btn-primary" type="submit" value="Изменить роль">
+        </div>
+    </form>
+
     <hr>
 </div>
 
