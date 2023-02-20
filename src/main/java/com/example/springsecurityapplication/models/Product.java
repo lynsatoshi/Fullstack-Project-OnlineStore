@@ -1,5 +1,7 @@
 package com.example.springsecurityapplication.models;
 
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -8,7 +10,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "id")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,79 +67,5 @@ public class Product {
     public void addImageProduct(Image image){
         image.setProduct(this); // указываем что работаеи с текущим продуктом
         imageList.add(image); // и добавляем этот объект в лист
-    }
-
-    public Product(String title, String description, float price, String provider) {
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.provider = provider;
-    }
-
-    public Product() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String seller) {
-        this.provider = seller;
-    }
-
-    public List<Image> getImageList() {
-        return imageList;
-    }
-
-    public void setImageList(List<Image> imageList) {
-        this.imageList = imageList;
-    }
-
-    public LocalDateTime getDataTimeOfCreated() {
-        return dataTimeOfCreated;
-    }
-
-    public void setDataTimeOfCreated(LocalDateTime dataTimeOfCreated) {
-        this.dataTimeOfCreated = dataTimeOfCreated;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 }

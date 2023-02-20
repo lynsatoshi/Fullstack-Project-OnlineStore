@@ -71,7 +71,7 @@
             <h3>Доступные товары</h3>
 
             <div class="row">
-                <div th:each="product : ${products}" style="width: 250px; height: 300px; margin: 5px; text-align: center; border: 1px dotted cadetblue; border-radius: 20px;">
+                <div th:each="product : ${products}" style="width: 250px; height: 350px; margin: 5px; text-align: center; border: 1px dotted cadetblue; border-radius: 20px;">
 
                     <img style="width: 100px;" th:src="'/img/' + ${product.imageList[0].getFileName()}">
                     <br>

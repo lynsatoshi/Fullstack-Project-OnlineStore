@@ -1,8 +1,17 @@
 package com.example.springsecurityapplication.models;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "id")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "image")
 public class Image {
 
     @Id
@@ -13,36 +22,4 @@ public class Image {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Product product;
-
-    public Image() {
-    }
-
-    public Image(String fileName, Product product) {
-        this.fileName = fileName;
-        this.product = product;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 }
